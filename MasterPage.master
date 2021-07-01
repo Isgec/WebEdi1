@@ -1,0 +1,181 @@
+<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="lgMasterPage" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+  <title>ISGEC-EDI Module</title>
+  <link rel="SHORTCUT ICON" type="image/x-icon" runat="server" href="~/isgec.ico" />
+  <link href="App_Themes/Default/Menu.css" rel="stylesheet" />
+  <script type="text/javascript" src="/../UserRights/jquery/jquery.js"></script>
+  <link rel="stylesheet" href="/../UserRights/jquery/themes/smoothness/jquery-ui.css" />
+  <script type="text/javascript" src="/../UserRights/jquery/jquery-ui.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $(".page").resizable();
+      $(".dragit").draggable();
+    });
+  </script>
+  <%--Button Style--%>
+  <style>
+
+    .nt-chk-danger{
+      border: 1pt solid #FF99CC;
+      background-color: #FFEBCD;
+      color: #000066;
+    }
+    .nt-but-danger {
+      border: 1pt solid #960825;
+      background-color: #d1062f;
+      color: white;
+    }
+
+    .nt-but-primary {
+      border: 1pt solid #5780f8;
+      background-color: #2196F3;
+      color: white;
+    }
+    .nt-but-gray {
+      border: 1pt solid gray;
+      background-color: #bdbcbc;
+      color: black;
+    }
+
+    .nt-but-grey {
+      border: 1pt solid gray;
+      background-color: #bdbcbc;
+      color: black;
+      cursor:pointer;
+    }
+
+    .nt-but-success {
+      border: 1pt solid #049317;
+      background-color: #06bf1e;
+      color: white;
+    }
+
+    .nt-but-warning {
+      border: 1pt solid #eab402;
+      background-color: #ffc300;
+      color: black;
+    }
+
+    .nt-but-killer {
+      border: 1pt solid #12fa30;
+      background-color: #f86d0a;
+      color: white;
+    }
+
+    .nt-chk-danger,
+    .nt-but-killer,
+    .nt-but-danger,
+    .nt-but-grey,
+    .nt-but-primary,
+    .nt-but-warning,
+    .nt-but-success {
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: bold;
+      padding:2px;
+    }
+
+      .nt-but-killer:hover,
+      .nt-but-danger:hover,
+      .nt-but-grey:hover,
+      .nt-but-primary:hover,
+      .nt-but-warning:hover,
+      .nt-but-success:hover {
+        border: 1pt solid orange;
+        opacity: 0.7;
+      }
+  </style>
+  <style>
+    body {
+      font-family: Tahoma;
+      font-size: 12px;
+      background-color:white;
+    }
+    .nt-body{
+      display: flex;
+      flex-direction:column;
+      min-height:500px;
+      border:1pt solid #d4d2d2;
+    }
+    .nt-body-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nt-body-row {
+      display: flex;
+      flex-direction: row;
+    }
+  </style>
+  <asp:ContentPlaceHolder ID="cphMain" runat="server" EnableViewState="true">
+  </asp:ContentPlaceHolder>
+</head>
+<body>
+  <form id="form1" runat="server">
+    <asp:ScriptManager ID="ToolkitScriptManager1" EnableScriptGlobalization="true" runat="server" EnablePageMethods="true" AsyncPostBackTimeout="3600" EnableScriptLocalization="True" ScriptMode="Auto">
+      <Scripts>
+        <asp:ScriptReference Path="/../UserRights/jquery/webkit.js" />
+      </Scripts>
+    </asp:ScriptManager>
+    <LGM:LGLoading ID="LGLoadingM" runat="server" />
+    <script type="text/javascript">
+      Sys.WebForms.PageRequestManager.getInstance().add_endRequest(hideProcessingMPV);
+      Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(showProcessingMPV);
+      function groupClicked(p) {
+        var tbl = p.parentElement.parentElement;
+        var o = p.parentElement.rowIndex;
+        for (ii = 0; ii <= tbl.rows.length - 1; ii++) {
+          if (ii > o) {
+            if (tbl.rows[ii].id != '')
+              return;
+            if (tbl.rows[ii].style.display == 'none')
+              tbl.rows[ii].style.display = '';
+            else
+              tbl.rows[ii].style.display = 'none';
+          }
+        }
+      }
+      function dc(o, p) {
+        var dec = /^-?\d+(?:\.\d{0,6})?$/;
+        var v = o.value;
+        if (v.match(dec)) {
+          o.value = parseFloat(v).toFixed(p);
+        } else {
+          o.value = parseFloat('0').toFixed(p);
+        }
+      }
+    </script>
+    <div class="nt-body-col">
+      <%--Header--%>
+      <div class="nt-body-row sis_login" style="justify-content:space-between;">
+        <div>
+          <asp:Image ID="any" runat="server" AlternateText="logo" Height="60px" ImageUrl="~/Images/Isgec2.JPG" />
+        </div>
+        <div>
+          <LGM:LoginLine ID="LoginLine1" runat="server" />
+        </div>
+      </div>
+      <%--Menu--%>
+      <div id="algmnu" runat="server" align="center" ></div>
+      <%--Body--%>
+      <div class="nt-body">
+        <asp:ContentPlaceHolder ID="cph1" runat="server" EnableViewState="true" />
+      </div>
+      <%--Footer--%>
+      <div class="nt-body-col sis_footer">
+        <div>
+          <span style="color:#5780f8">© ISGEC Heavy Engineering Limited. All rights reserved.</span>
+        </div>
+        <div>
+          <span style="color:#5780f8">A-4, Sector-24, NOIDA, U.P. 201 301, INDIA </span>
+        </div>
+        <div>
+          <span style="color:#5780f8">Designed &amp; Developed by:</span> <span style="color:#88b8de">ISGEC IT Team</span>
+        </div>
+      </div>
+    </div>
+  </form>
+</body>
+</html>
